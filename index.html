@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WS Consult – KI-Transformation für den Mittelstand</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --lime: #C8F400;
+    --magenta: #E5007D;
+    --white: #ffffff;
+    --gray-1: #f5f5f5;
+    --gray-2: #e0e0e0;
+    --gray-4: #888888;
+    --gray-7: #1a1a1a;
+    --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--black);
+    color: var(--white);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 4rem;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav-logo {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--lime); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  nav ul a {
+    color: var(--gray-4);
+    text-decoration: none;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+  }
+
+  nav ul a:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4rem 6rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-line {
+    position: absolute;
+    top: 0; right: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, var(--lime) 40%, transparent);
+    opacity: 0.3;
+    right: 30%;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 14ch;
+    margin-bottom: 2rem;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--lime);
+  }
+
+  .hero-sub {
+    font-size: 1.125rem;
+    color: var(--gray-4);
+    max-width: 52ch;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  .hero-meta {
+    margin-top: 4rem;
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 2rem;
+  }
+
+  .hero-stat strong {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--white);
+  }
+
+  .hero-stat span {
+    font-size: 0.8rem;
+    color: var(--gray-4);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero-divider {
+    width: 1px;
+    height: 3rem;
+    background: rgba(255,255,255,0.12);
+  }
+
+  /* POSITIONING SECTION */
+  .section {
+    padding: 6rem 4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--magenta);
+    margin-bottom: 3rem;
+    font-weight: 500;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .two-col h2 {
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .two-col h2 em {
+    font-style: normal;
+    color: var(--lime);
+  }
+
+  .two-col-body p {
+    color: var(--gray-4);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+  }
+
+  .two-col-body p:last-child { margin-bottom: 0; }
+
+  /* LEISTUNGEN */
+  .leistungen-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-top: 3rem;
+  }
+
+  .leistung-item {
+    background: var(--black);
+    padding: 2.5rem 2rem;
+    transition: background 0.2s;
+  }
+
+  .leistung-item:hover { background: var(--gray-7); }
+
+  .leistung-nr {
+    font-size: 0.7rem;
+    color: var(--lime);
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+
+  .leistung-item h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .leistung-item p {
+    font-size: 0.9rem;
+    color: var(--gray-4);
+    line-height: 1.7;
+  }
+
+  /* PROFIL */
+  .profil-block {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .profil-sidebar {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .profil-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+
+  .profil-title {
+    font-size: 0.875rem;
+    color: var(--lime);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 2rem;
+  }
+
+  .profil-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    color: var(--gray-4);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 0.3rem 0.75rem;
+    letter-spacing: 0.04em;
+  }
+
+  .profil-content p {
+    color: var(--gray-4);
+    font-size: 1rem;
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+  }
+
+  .profil-content p:last-child { margin-bottom: 0; }
+
+  .profil-content strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  /* ZERTIFIKAT */
+  .zert-bar {
+    background: var(--gray-7);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .zert-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--lime);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .zert-bar p {
+    font-size: 0.875rem;
+    color: var(--gray-4);
+    letter-spacing: 0.02em;
+  }
+
+  .zert-bar strong { color: var(--white); font-weight: 500; }
+
+  /* KONTAKT */
+  .kontakt-block {
+    max-width: 56ch;
+  }
+
+  .kontakt-block h2 {
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
+  }
+
+  .kontakt-block h2 em {
+    font-style: normal;
+    color: var(--magenta);
+  }
+
+  .kontakt-block p {
+    color: var(--gray-4);
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  .kontakt-links {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .kontakt-link {
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 0.125rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .kontakt-link:hover {
+    color: var(--lime);
+    border-color: var(--lime);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.04em;
+  }
+
+  .footer-logo {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .footer-logo span { color: var(--lime); opacity: 0.5; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.25rem 1.5rem; }
+    nav ul { display: none; }
+    .hero { padding: 0 1.5rem 4rem; }
+    .hero-meta { gap: 1.5rem; flex-wrap: wrap; }
+    .section { padding: 4rem 1.5rem; }
+    .two-col { grid-template-columns: 1fr; gap: 2rem; }
+    .leistungen-grid { grid-template-columns: 1fr; }
+    .profil-block { grid-template-columns: 1fr; gap: 2.5rem; }
+    .profil-sidebar { position: static; }
+    .zert-bar { padding: 1.25rem 1.5rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#"><span>WS</span> Consult</a>
+  <ul>
+    <li><a href="#leistungen">Leistungen</a></li>
+    <li><a href="#profil">Profil</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-line" aria-hidden="true"></div>
+  <p class="hero-eyebrow">KI-Transformation · Beratung · Interim Management</p>
+  <h1>KI, die im <em>Unternehmen</em> wirklich ankommt.</h1>
+  <p class="hero-sub">
+    Operative Einheiten effizienter machen, Innovationen zuverlässig umsetzen, 
+    Zeit-zu-Markt verkürzen — mit dem gezielten Rückenwind von Künstlicher Intelligenz.
+  </p>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <strong>25+</strong>
+      <span>Jahre operative Erfahrung</span>
+    </div>
+    <div class="hero-divider" aria-hidden="true"></div>
+    <div class="hero-stat">
+      <strong>95 %</strong>
+      <span>der KI-Projekte scheitern nicht an der Technologie</span>
+    </div>
+    <div class="hero-divider" aria-hidden="true"></div>
+    <div class="hero-stat">
+      <strong>TÜV</strong>
+      <span>zertifizierter KI-Transformation Manager</span>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section class="section" id="ansatz">
+  <p class="section-label">Der Ansatz</p>
+  <div class="two-col">
+    <h2>Technik, Prozesse und Menschen <em>gleichzeitig</em> bewegen.</h2>
+    <div class="two-col-body">
+      <p>
+        95 Prozent der KI-Projekte im Mittelstand scheitern nicht an der Technologie — 
+        sondern daran, dass niemand Technik, Prozesse und Menschen gleichzeitig bewegt. 
+        Genau da setze ich an.
+      </p>
+      <p>
+        Saubere Analyse, präzise Spezifikation — System-Engineering statt „Prompt and pray" — 
+        und Umsetzung, die im Unternehmen ankommt. Inklusive Governance, Datenschutz 
+        und Befähigung der Mitarbeitenden.
+      </p>
+      <p>
+        Keine Insellösungen. Ganzheitliche Ansätze, die Technik, Prozesse und Menschen 
+        gemeinsam weiterentwickeln.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- LEISTUNGEN -->
+<section class="section" id="leistungen">
+  <p class="section-label">Leistungen</p>
+  <div class="leistungen-grid">
+    <div class="leistung-item">
+      <p class="leistung-nr">01</p>
+      <h3>KI-Beratung</h3>
+      <p>Potenzialanalyse, Roadmap-Entwicklung und Toolauswahl — pragmatisch und umsetzungsorientiert für KMU und mittelständische Unternehmen.</p>
+    </div>
+    <div class="leistung-item">
+      <p class="leistung-nr">02</p>
+      <h3>Interim Management</h3>
+      <p>Übernahme von Verantwortung in KI-Transformationsprojekten — remote und flexibel, mit klarem Fokus auf messbares Ergebnis.</p>
+    </div>
+    <div class="leistung-item">
+      <p class="leistung-nr">03</p>
+      <h3>Coaching & Befähigung</h3>
+      <p>Individuelle Begleitung von Führungskräften und Teams beim sicheren, produktiven Einsatz von KI im Arbeitsalltag.</p>
+    </div>
+    <div class="leistung-item">
+      <p class="leistung-nr">04</p>
+      <h3>KI-Strategie & Governance</h3>
+      <p>Entwicklung tragfähiger KI-Strategien mit klarer Verantwortungsstruktur, Datenschutz-Compliance und ethischen Leitplanken.</p>
+    </div>
+    <div class="leistung-item">
+      <p class="leistung-nr">05</p>
+      <h3>Prozessautomatisierung</h3>
+      <p>Identifikation und Implementierung von KI-gestützten Automatisierungslösungen — mit Fokus auf nachhaltige Integration statt Insellösungen.</p>
+    </div>
+    <div class="leistung-item">
+      <p class="leistung-nr">06</p>
+      <h3>Workshops & Schulungen</h3>
+      <p>Praxisnahe Formate für Teams und Unternehmen — von der KI-Grundlagenschulung bis zum fortgeschrittenen Prompt-Engineering-Workshop.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROFIL -->
+<section class="section" id="profil">
+  <p class="section-label">Profil</p>
+  <div class="profil-block">
+    <div class="profil-sidebar">
+      <p class="profil-name">Werner Schneider</p>
+      <p class="profil-title">Manager KI-Transformation</p>
+      <div class="profil-tags">
+        <span class="tag">TÜV-zertifiziert · KI-Transformation</span>
+        <span class="tag">25+ Jahre E/E-Systeme</span>
+        <span class="tag">Deutsch · Englisch</span>
+        <span class="tag">Remote · Flexibel</span>
+        <span class="tag">Hattersheim · Deutschland</span>
+      </div>
+    </div>
+    <div class="profil-content">
+      <p>
+        Wer KI wirklich umsetzen will, braucht jemanden, der Komplexität 
+        schon beherrscht hat. <strong>25 Jahre komplexe E/E-Systeme, internationale 
+        Teams, harte Deadlines, regulatorischer Druck</strong> — und dutzende 
+        erfolgreiche Launches. On time. On budget.
+      </p>
+      <p>
+        Heute bringe ich diese Erfahrung in eine neue Arena: KI operativ umsetzen — 
+        bei KMU, kleinen Teams und Selbstständigen in Tech, Handwerk, Produktion 
+        und Dienstleistung.
+      </p>
+      <p>
+        Was den Unterschied macht: eine werteorientierte, empathische Arbeitsweise, 
+        die zuhört bevor sie handelt — und dann <strong>konsequent auf das Ziel 
+        fokussiert</strong>. Ich höre zu, bevor ich handle.
+      </p>
+      <p>
+        Mit dem aktuellen Fokus auf angewandte Künstliche Intelligenz kommt eine 
+        seltene Kombination zusammen: jahrzehntelange operative Führungserfahrung 
+        trifft auf fundiertes KI-Know-how — täglich in der Praxis eingesetzt und 
+        kontinuierlich weiterentwickelt.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ZERTIFIKAT-BAR -->
+<div class="zert-bar">
+  <div class="zert-dot" aria-hidden="true"></div>
+  <p>
+    <strong>TÜV-zertifizierter Manager für angewandte KI-Transformation</strong> · 
+    KOERTING INSTITUTE · Verfügbar für Beratung, Interim Management & Coaching — remote und flexibel
+  </p>
+</div>
+
+<!-- KONTAKT -->
+<section class="section" id="kontakt">
+  <div class="kontakt-block">
+    <p class="section-label">Kontakt</p>
+    <h2>Bereit, KI ins <em>Unternehmen</em> zu bringen?</h2>
+    <p>
+      Ich freue mich auf ein erstes Gespräch — unverbindlich, direkt und 
+      auf Augenhöhe. Sprechen Sie mich an.
+    </p>
+    <div class="kontakt-links">
+      <a class="kontakt-link" href="mailto:ws_info@icloud.com">E-Mail schreiben</a>
+      <a class="kontakt-link" href="https://www.linkedin.com/in/werner-schneider" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 WS Consult · Werner Schneider · Hattersheim</p>
+  <p class="footer-logo"><span>WS</span> Consult</p>
+</footer>
+
+</body>
+</html>
